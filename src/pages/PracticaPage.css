@@ -1,0 +1,65 @@
+.practica-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.video-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.video-container {
+  width: 100%;
+  background: #000;
+  position: relative;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+.video-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-controls {
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.video-actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.video-actions button {
+  flex: 1;
+}
+
+.tips-list {
+  margin: 0;
+  padding-left: 24px;
+  color: #4b5563;
+}
+
+.tips-list li {
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.tips-list li:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 968px) {
+  .practica-container {
+    grid-template-columns: 1fr;
+  }
+}

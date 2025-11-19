@@ -1,0 +1,126 @@
+.racha-card {
+  margin-bottom: 32px;
+  background: linear-gradient(135deg, #1e3a8a15 0%, #0f172a15 100%);
+  border: 2px solid #1e3a8a30;
+}
+
+.racha-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.racha-icon {
+  font-size: 64px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.racha-info {
+  flex: 1;
+}
+
+.racha-value {
+  font-size: 40px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.racha-label {
+  font-size: 18px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.racha-best {
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.insignias-section {
+  margin-top: 32px;
+}
+
+.insignias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.insignia-card {
+  text-align: center;
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.insignia-card:hover {
+  transform: translateY(-4px);
+}
+
+.insignia-obtenida {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border: 2px solid #86efac;
+}
+
+.insignia-bloqueada {
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  opacity: 0.7;
+}
+
+.insignia-icon {
+  font-size: 56px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.insignia-nombre {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.insignia-descripcion {
+  font-size: 14px;
+  color: #4b5563;
+  line-height: 1.5;
+  margin: 0 0 12px 0;
+}
+
+.insignia-fecha {
+  font-size: 12px;
+  color: #10b981;
+  font-weight: 500;
+  margin: 0;
+}
+
+.insignia-requisitos {
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.insignia-requisitos p {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .racha-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .insignias-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
