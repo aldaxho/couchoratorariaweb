@@ -14,7 +14,7 @@ export const PracticaService = {
     try {
       const response = await apiClient.post('/practica/finalizar', {
         idSesion,
-        urlArchivo: urlArchivo || 'video_simulado.mp4'
+        urlArchivo
       });
       return response.data;
     } catch (error) {

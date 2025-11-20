@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { GoogleLogin } from '@react-oauth/google';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Card from '../components/Card';
@@ -15,8 +16,29 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState('');
 
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
+
+  // Verificar si Google OAuth está configurado
+  const isGoogleConfigured = import.meta.env.VITE_GOOGLE_CLIENT_ID && 
+                             import.meta.env.VITE_GOOGLE_CLIENT_ID.length > 0;
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setLoading(true);
+    setServerError('');
+    try {
+      await loginWithGoogle(credentialResponse.credential);
+      navigate('/dashboard');
+    } catch (error) {
+      setServerError(error.message || 'Error al iniciar sesión con Google');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    setServerError('Error al iniciar sesión con Google');
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -113,6 +135,24 @@ const LoginPage = () => {
               {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
             </Button>
           </form>
+
+          {isGoogleConfigured && (
+            <>
+              <div className="divider">
+                <span>O continúa con</span>
+              </div>
+
+              <div className="google-login-wrapper">
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={handleGoogleError}
+                  useOneTap
+                  theme="outline"
+                  size="large"
+                />
+              </div>
+            </>
+          )}
 
           <div className="login-footer">
             <p>

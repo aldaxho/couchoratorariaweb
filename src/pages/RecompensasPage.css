@@ -44,6 +44,35 @@
   color: #6b7280;
 }
 
+.racha-actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.share-notification {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #10b981;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  animation: slideDown 3s ease-in-out;
+}
+
+@keyframes slideDown {
+  0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+  20% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+}
+
 .insignias-section {
   margin-top: 32px;
 }

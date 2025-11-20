@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Card from '../components/Card';
 import Loader from '../components/Loader';
+import ProgressChart from '../components/ProgressChart';
+import StreakChart from '../components/StreakChart';
 import { RecompensaService } from '../services/recompensaService';
 import { useAuth } from '../context/AuthContext';
 import './DashboardPage.css';
@@ -11,6 +13,31 @@ const DashboardPage = () => {
   const [stats, setStats] = useState(null);
   const [racha, setRacha] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Datos de ejemplo para los gráficos
+  const getProgressData = () => {
+    // En producción, estos datos vendrían del backend
+    const today = new Date();
+    const labels = [];
+    const values = [];
+    
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      labels.push(date.toLocaleDateString('es', { weekday: 'short' }));
+      values.push(Math.floor(Math.random() * 5) + (stats?.totalPracticas ? 1 : 0));
+    }
+    
+    return { labels, values };
+  };
+
+  const getScoreProgressData = () => {
+    // Datos de ejemplo de puntuaciones de las últimas 10 prácticas
+    const labels = Array.from({ length: 10 }, (_, i) => `P${i + 1}`);
+    const values = Array.from({ length: 10 }, () => Math.floor(Math.random() * 30) + 70);
+    
+    return { labels, values };
+  };
 
   useEffect(() => {
     loadDashboardData();
@@ -81,6 +108,20 @@ const DashboardPage = () => {
 
         <div className="dashboard-grid">
           <Card title="Progreso Semanal">
+            <StreakChart data={getProgressData()} />
+          </Card>
+
+          <Card title="Evolución de Puntuaciones">
+            <ProgressChart 
+              data={getScoreProgressData()} 
+              label="Puntuación"
+              color="#10b981"
+            />
+          </Card>
+        </div>
+
+        <div className="dashboard-grid">
+          <Card title="Estadísticas Detalladas">
             <div className="progress-container">
               <div className="progress-item">
                 <span>Total de prácticas</span>

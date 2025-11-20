@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Card from '../components/Card';
 import Loader from '../components/Loader';
+import Button from '../components/Button';
 import { RecompensaService } from '../services/recompensaService';
+import { ShareService } from '../services/shareService';
 import './RecompensasPage.css';
 
 const RecompensasPage = () => {
@@ -10,6 +12,7 @@ const RecompensasPage = () => {
   const [racha, setRacha] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [shareMessage, setShareMessage] = useState('');
 
   useEffect(() => {
     loadRecompensas();
@@ -29,6 +32,32 @@ const RecompensasPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleShareStreak = async () => {
+    const shareData = ShareService.getStreakShareText(racha?.rachaActual || 0);
+    const success = await ShareService.share(shareData);
+    
+    if (success) {
+      setShareMessage('¡Racha compartida exitosamente!');
+    } else {
+      setShareMessage('Enlace copiado al portapapeles');
+    }
+    
+    setTimeout(() => setShareMessage(''), 3000);
+  };
+
+  const handleShareAchievement = async (insignia) => {
+    const shareData = ShareService.getAchievementShareText(insignia);
+    const success = await ShareService.share(shareData);
+    
+    if (success) {
+      setShareMessage('¡Logro compartido exitosamente!');
+    } else {
+      setShareMessage('Enlace copiado al portapapeles');
+    }
+    
+    setTimeout(() => setShareMessage(''), 3000);
   };
 
   if (loading) {
@@ -55,6 +84,12 @@ const RecompensasPage = () => {
           <div className="alert alert-error">{error}</div>
         )}
 
+        {shareMessage && (
+          <div className="share-notification">
+            {shareMessage}
+          </div>
+        )}
+
         <Card className="racha-card">
           <div className="racha-content">
             <div className="racha-icon">🔥</div>
@@ -65,6 +100,15 @@ const RecompensasPage = () => {
           </div>
           <div className="racha-best">
             <span>Mejor racha: {racha?.mejorRacha || 0} días</span>
+          </div>
+          <div className="racha-actions">
+            <Button 
+              variant="success" 
+              size="small" 
+              onClick={handleShareStreak}
+            >
+              📤 Compartir Racha
+            </Button>
           </div>
         </Card>
 
@@ -85,6 +129,14 @@ const RecompensasPage = () => {
                       Obtenida: {new Date(insignia.obtenidaEn).toLocaleDateString('es-ES')}
                     </p>
                   )}
+                  <Button 
+                    variant="secondary" 
+                    size="small" 
+                    fullWidth
+                    onClick={() => handleShareAchievement(insignia)}
+                  >
+                    📤 Compartir
+                  </Button>
                 </Card>
               ))}
             </div>

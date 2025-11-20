@@ -5,6 +5,7 @@ import Card from '../components/Card';
 import Loader from '../components/Loader';
 import Button from '../components/Button';
 import { PracticaService } from '../services/practicaService';
+import { ShareService } from '../services/shareService';
 import { useNavigate } from 'react-router-dom';
 import './AnalisisPage.css';
 
@@ -13,6 +14,7 @@ const AnalisisPage = () => {
   const [analisis, setAnalisis] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [shareMessage, setShareMessage] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +31,19 @@ const AnalisisPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleShare = async () => {
+    const shareData = ShareService.getAnalysisShareText(analisis);
+    const success = await ShareService.share(shareData);
+    
+    if (success) {
+      setShareMessage('¡Compartido exitosamente!');
+    } else {
+      setShareMessage('Enlace copiado al portapapeles');
+    }
+    
+    setTimeout(() => setShareMessage(''), 3000);
   };
 
   if (loading) {
@@ -79,6 +94,15 @@ const AnalisisPage = () => {
 
               <h3>Comentario</h3>
               <p>{analisis?.comentario || 'Sin comentarios disponibles'}</p>
+
+              {analisis?.transcripcion && (
+                <>
+                  <h3>Transcripción</h3>
+                  <div className="transcripcion-box">
+                    <p>{analisis.transcripcion}</p>
+                  </div>
+                </>
+              )}
             </div>
           </Card>
 
@@ -117,8 +141,16 @@ const AnalisisPage = () => {
           </Card>
 
           <div className="analisis-actions">
+            {shareMessage && (
+              <div className="share-message">
+                {shareMessage}
+              </div>
+            )}
             <Button variant="secondary" onClick={() => navigate('/historial')}>
               Ver Historial
+            </Button>
+            <Button variant="success" onClick={handleShare}>
+              📤 Compartir Resultado
             </Button>
             <Button variant="primary" onClick={() => navigate('/practica')}>
               Nueva Práctica
